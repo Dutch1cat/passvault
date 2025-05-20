@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PassVault</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #1a1a1a;
+      color: white;
+      padding: 20px;
+    }
+
+    .vault-container {
+      max-width: 500px;
+      margin: auto;
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      background-color: #00b894;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #019875;
+    }
+  </style>
+</head>
+<body>
+  <div class="vault-container">
+    <h1>Password Vault 🔐</h1>
+    <input type="text" id="service" placeholder="Service (e.g. Gmail)">
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="savePassword()">Save Password</button>
+
+    <h2>Saved Passwords</h2>
+    <div id="output"></div>
+  </div>
+
+  <script>
+    const savePassword = () => {
+      const service = document.getElementById('service').value;
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (!service || !username || !password) return alert("Please fill all fields!");
+
+      const entry = { service, username, password };
+      let data = JSON.parse(localStorage.getItem('vault')) || [];
+      data.push(entry);
+      localStorage.setItem('vault', JSON.stringify(data));
+      alert("Password saved!");
+      showPasswords();
+    }
+
+    const showPasswords = () => {
+      let data = JSON.parse(localStorage.getItem('vault')) || [];
+      const output = document.getElementById('output');
+      output.innerHTML = '';
+      data.forEach((entry, index) => {
+        output.innerHTML += `<p><strong>${entry.service}</strong> – ${entry.username} : ${entry.password}</p>`;
+      });
+    }
+
+    window.onload = showPasswords;
+  </script>
+</body>
+</html>
