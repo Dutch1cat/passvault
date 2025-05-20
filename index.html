@@ -46,6 +46,7 @@
     <input type="text" id="username" placeholder="Username">
     <input type="password" id="password" placeholder="Password">
     <button onclick="savePassword()">Save Password</button>
+    <button onclick="generatePassword()">🔁 Generate Strong Password</button>
 
     <h2>Saved Passwords</h2>
     <div id="output"></div>
@@ -74,6 +75,14 @@
       data.forEach((entry, index) => {
         output.innerHTML += `<p><strong>${entry.service}</strong> – ${entry.username} : ${entry.password}</p>`;
       });
+    }
+    function generatePassword(length = 12) {
+      const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+[]{}|;:,.<>?";
+      let password = "";
+      for (let i = 0; i < length; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      document.getElementById("password").value = password;
     }
 
     window.onload = showPasswords;
